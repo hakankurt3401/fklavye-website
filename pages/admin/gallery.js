@@ -60,11 +60,12 @@ export default function GalleryManager() {
   };
 
   const openEditModal = (album) => {
+    const albumImages = getImages(album);
     setEditingAlbum(album);
     setFormData({ 
       title: album.title || '', 
       content: album.content || '', 
-      images: (album.images || []).join('\n')
+      images: albumImages.join('\n')
     });
     setActiveTab('edit');
     setShowModal(true);
@@ -108,6 +109,18 @@ export default function GalleryManager() {
     alert('Kaydedildi!');
   };
 
+  const getImages = (album) => {
+    if (!album.images) return [];
+    if (typeof album.images === 'string') {
+      try {
+        return JSON.parse(album.images);
+      } catch {
+        return [];
+      }
+    }
+    return album.images;
+  };
+
   const sortedAlbums = [...albums].sort((a, b) => (a.order || 0) - (b.order || 0));
 
   return (
@@ -123,16 +136,18 @@ export default function GalleryManager() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {sortedAlbums.map((album, index) => (
+        {sortedAlbums.map((album, index) => {
+          const albumImages = getImages(album);
+          return (
           <div key={album.id} className="bg-white rounded-xl shadow overflow-hidden">
             {/* Albüm Önizleme */}
             <div className="aspect-video bg-sky-100 flex items-center justify-center relative overflow-hidden">
-              {album.images && album.images.length > 0 ? (
-                album.images.length === 1 ? (
-                  <img src={album.images[0]} alt={album.title} className="w-full h-full object-cover" />
+              {albumImages.length > 0 ? (
+                albumImages.length === 1 ? (
+                  <img src={albumImages[0]} alt={album.title} className="w-full h-full object-cover" />
                 ) : (
                   <div className="flex w-full h-full">
-                    {album.images.slice(0, 4).map((img, i) => (
+                    {albumImages.slice(0, 4).map((img, i) => (
                       <div key={i} className="w-1/2 h-1/2 overflow-hidden">
                         <img src={img} alt="" className="w-full h-full object-cover" />
                       </div>
@@ -162,7 +177,7 @@ export default function GalleryManager() {
                 </button>
               </div>
               <div className="absolute bottom-2 left-2 bg-blue-800 text-white px-2 py-1 rounded text-xs">
-                {album.images ? album.images.length : 0} resim
+                {albumImages.length} resim
               </div>
             </div>
             <div className="p-4">
@@ -186,7 +201,8 @@ export default function GalleryManager() {
               </div>
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
 
       {sortedAlbums.length === 0 && (
