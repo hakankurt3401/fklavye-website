@@ -70,8 +70,9 @@ export default function VideoManager() {
           : item
       );
     } else {
-      const newId = Math.max(...videos.map(n => n.id), 0) + 1;
-      newVideos = [...videos, { id: newId, ...formData, order: videos.length + 1 }];
+      const newId = Math.max(...videos.map(n => n.id || 0), 0) + 1;
+      // Yeni video eklerken id'yi 0 veya negatif yap ki saveVideos INSERT desin
+      newVideos = [...videos, { id: -newId, ...formData, order: videos.length + 1 }];
     }
     setVideos(newVideos);
     saveVideos(newVideos);
