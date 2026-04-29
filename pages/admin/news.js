@@ -180,7 +180,6 @@ export default function NewsManager() {
           date: formData.date,
           description: formattedDescription,
           image_url: formData.image_url,
-          document_url: formData.document_url,
           signature: formData.signature,
           item_order: editingItem.isNew ? (announcements.length + 1) : editingItem.item_order
         };
