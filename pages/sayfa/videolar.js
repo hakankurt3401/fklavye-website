@@ -34,6 +34,13 @@ export default function Videolar() {
     return url && (url.startsWith('/videos/') || url.startsWith('/videos'));
   };
 
+  const isDirectVideo = (url) => {
+    if (!url) return false;
+    return url.match(/\.(mp4|webm|ogg|mov)$/i) || 
+           url.includes('cloudinary.com') ||
+           url.includes('vimeo.com');
+  };
+
   if (loading) {
     return (
       <Layout title="Videolar - F Klavye Uçan Parmaklar Derneği">
@@ -73,6 +80,14 @@ export default function Videolar() {
                           title={video.title}
                         />
                       ) : localVideo ? (
+                        <video
+                          src={video.url}
+                          controls
+                          className="w-full h-full object-contain"
+                        >
+                          Tarayıcınız video etiketini desteklemiyor.
+                        </video>
+                      ) : isDirectVideo(video.url) ? (
                         <video
                           src={video.url}
                           controls
