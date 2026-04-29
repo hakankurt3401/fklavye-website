@@ -1,0 +1,8 @@
+﻿.next
+out
+node_modules
+*.zip
+*.mp4
+*.sst
+*.log
+.DS_Store

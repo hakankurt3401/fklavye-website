@@ -1,0 +1,21 @@
+{
+  "name": "feparder",
+  "version": "1.0.0",
+  "description": "F Klavye ve Uçan Parmaklar Derneği Web Sitesi",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.105.0",
+    "@swc/helpers": "^0.5.21",
+    "@tailwindcss/postcss": "^4.2.4",
+    "autoprefixer": "^10.5.0",
+    "next": "14.2.0",
+    "postcss": "^8.5.11",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^4.2.4"
+  }
+}
