@@ -14,7 +14,7 @@ export default function VideoManager() {
 
   // Auto-save kaldırıldı - sadece kullanıcı action yaptığında kaydet
 
-  const moveItem = (id, direction) => {
+  const moveItem = async (id, direction) => {
     const sortedVideos = [...videos].sort((a, b) => (a.order || 0) - (b.order || 0));
     const index = sortedVideos.findIndex(item => item.id === id);
     
@@ -29,14 +29,16 @@ export default function VideoManager() {
     }
     
     setVideos(sortedVideos);
-    saveVideos(sortedVideos);
+    const result = await saveVideos(sortedVideos);
+    if (result) setVideos(result);
   };
 
-  const deleteItem = (id) => {
+  const deleteItem = async (id) => {
     if (confirm('Bu videoyu silmek istediğinizden emin misiniz?')) {
       const newVideos = videos.filter(item => item.id !== id);
       setVideos(newVideos);
-      saveVideos(newVideos);
+      const result = await saveVideos(newVideos);
+      if (result) setVideos(result);
     }
   };
 
@@ -56,7 +58,7 @@ export default function VideoManager() {
     setShowModal(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!formData.title || !formData.duration) {
       alert('Lütfen başlık ve süre alanlarını doldurun!');
       return;
@@ -71,11 +73,11 @@ export default function VideoManager() {
       );
     } else {
       const newId = Math.max(...videos.map(n => n.id || 0), 0) + 1;
-      // Yeni video eklerken id'yi 0 veya negatif yap ki saveVideos INSERT desin
       newVideos = [...videos, { id: -newId, ...formData, order: videos.length + 1 }];
     }
     setVideos(newVideos);
-    saveVideos(newVideos);
+    const result = await saveVideos(newVideos);
+    if (result) setVideos(result);
     setShowModal(false);
     alert('Kaydedildi!');
   };
