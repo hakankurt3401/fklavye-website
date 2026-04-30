@@ -18,27 +18,32 @@ export default function VideoManager() {
     const sortedVideos = [...videos].sort((a, b) => (a.order || 0) - (b.order || 0));
     const index = sortedVideos.findIndex(item => item.id === id);
     
-    if (direction === 'up' && index > 0) {
-      const temp = sortedVideos[index].order;
-      sortedVideos[index].order = sortedVideos[index - 1].order;
-      sortedVideos[index - 1].order = temp;
-    } else if (direction === 'down' && index < sortedVideos.length - 1) {
-      const temp = sortedVideos[index].order;
-      sortedVideos[index].order = sortedVideos[index + 1].order;
-      sortedVideos[index + 1].order = temp;
-    }
+    let swapIndex = direction === 'up' ? index - 1 : index + 1;
+    if (swapIndex < 0 || swapIndex >= sortedVideos.length) return;
     
-    setVideos(sortedVideos);
-    const result = await saveVideos(sortedVideos);
-    if (result) setVideos(result);
+    const video1 = sortedVideos[index];
+    const video2 = sortedVideos[swapIndex];
+    
+    // Doğrudan Supabase'e güncelleme yap - sadece bu iki video için
+    await supabase
+      .from('videos')
+      .update({ sort_order: video2.order })
+      .eq('id', video1.id);
+    
+    await supabase
+      .from('videos')
+      .update({ sort_order: video1.order })
+      .eq('id', video2.id);
+    
+    // Sayfayı yeniden yükle
+    const { data } = await supabase.from('videos').select('*').order('sort_order', { ascending: true });
+    setVideos(data || []);
   };
 
   const deleteItem = async (id) => {
     if (confirm('Bu videoyu silmek istediğinizden emin misiniz?')) {
-      const newVideos = videos.filter(item => item.id !== id);
-      setVideos(newVideos);
-      const result = await saveVideos(newVideos);
-      if (result) setVideos(result);
+      await supabase.from('videos').delete().eq('id', id);
+      setVideos(videos.filter(item => item.id !== id));
     }
   };
 

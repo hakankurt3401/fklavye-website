@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getGallery, saveGallery } from '../../lib/siteData';
+import { supabase } from '../../lib/supabase';
 
 export default function GalleryManager() {
   const [albums, setAlbums] = useState([]);
@@ -16,40 +17,28 @@ export default function GalleryManager() {
     loadGallery();
   }, []);
 
-  const moveItem = (id, direction) => {
+  const moveItem = async (id, direction) => {
     const sortedAlbums = [...albums].sort((a, b) => (a.order || 0) - (b.order || 0));
     const idx = sortedAlbums.findIndex(album => album.id === id);
     if (idx < 0) return;
     
-    if (direction === 'up' && idx > 0) {
-      const prev = sortedAlbums[idx - 1];
-      const curr = sortedAlbums[idx];
-      const tempOrder = prev.order;
-      prev.order = curr.order;
-      curr.order = tempOrder;
-    } else if (direction === 'down' && idx < sortedAlbums.length - 1) {
-      const next = sortedAlbums[idx + 1];
-      const curr = sortedAlbums[idx];
-      const tempOrder = next.order;
-      next.order = curr.order;
-      curr.order = tempOrder;
-    } else return;
+    let swapIdx = direction === 'up' ? idx - 1 : idx + 1;
+    if (swapIdx < 0 || swapIdx >= sortedAlbums.length) return;
     
-    const updated = albums.map(album => {
-      if (album.id === prev?.id) return prev;
-      if (album.id === curr?.id) return curr;
-      return album;
-    });
+    const album1 = sortedAlbums[idx];
+    const album2 = sortedAlbums[swapIdx];
     
-    setAlbums(updated);
-    saveGallery(updated);
+    await supabase.from('gallery').update({ sort_order: album2.order }).eq('id', album1.id);
+    await supabase.from('gallery').update({ sort_order: album1.order }).eq('id', album2.id);
+    
+    const { data } = await supabase.from('gallery').select('*').order('sort_order', { ascending: true });
+    setAlbums(data || []);
   };
 
-  const deleteItem = (id) => {
+  const deleteItem = async (id) => {
     if (!confirm('Bu albümü silmek istediğinizden emin misiniz?')) return;
-    const newAlbums = albums.filter(album => album.id !== id);
-    setAlbums(newAlbums);
-    saveGallery(newAlbums);
+    await supabase.from('gallery').delete().eq('id', id);
+    setAlbums(albums.filter(album => album.id !== id));
   };
 
   const openAddModal = () => {
