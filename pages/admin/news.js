@@ -262,16 +262,16 @@ export default function NewsManager() {
   };
 
   const moveAnnouncementUp = async (id) => {
-    const sorted = [...announcements].sort((a, b) => (a.item_order || 0) - (b.item_order || 0));
+    const sorted = [...announcements].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
     const idx = sorted.findIndex(a => a.id === id);
     if (idx <= 0) return;
     const prev = sorted[idx - 1];
     const curr = sorted[idx];
     try {
-      const prevOrder = prev.item_order || 0;
-      const currOrder = curr.item_order || 0;
-      await supabase.from('announcements').update({ item_order: currOrder }).eq('id', prev.id);
-      await supabase.from('announcements').update({ item_order: prevOrder }).eq('id', curr.id);
+      const prevOrder = prev.sort_order || 0;
+      const currOrder = curr.sort_order || 0;
+      await supabase.from('announcements').update({ sort_order: currOrder }).eq('id', prev.id);
+      await supabase.from('announcements').update({ sort_order: prevOrder }).eq('id', curr.id);
       await loadData();
     } catch (error) {
       console.error('Sıralama hatası:', error);
@@ -279,23 +279,23 @@ export default function NewsManager() {
   };
 
   const moveAnnouncementDown = async (id) => {
-    const sorted = [...announcements].sort((a, b) => (a.item_order || 0) - (b.item_order || 0));
+    const sorted = [...announcements].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
     const idx = sorted.findIndex(a => a.id === id);
     if (idx < 0 || idx >= sorted.length - 1) return;
     const next = sorted[idx + 1];
     const curr = sorted[idx];
     try {
-      const nextOrder = next.item_order || 0;
-      const currOrder = curr.item_order || 0;
-      await supabase.from('announcements').update({ item_order: currOrder }).eq('id', next.id);
-      await supabase.from('announcements').update({ item_order: nextOrder }).eq('id', curr.id);
+      const nextOrder = next.sort_order || 0;
+      const currOrder = curr.sort_order || 0;
+      await supabase.from('announcements').update({ sort_order: currOrder }).eq('id', next.id);
+      await supabase.from('announcements').update({ sort_order: nextOrder }).eq('id', curr.id);
       await loadData();
     } catch (error) {
       console.error('Sıralama hatası:', error);
     }
   };
 
-  const sortedAnnouncements = [...announcements].sort((a, b) => (a.item_order || 0) - (b.item_order || 0));
+  const sortedAnnouncements = [...announcements].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
   const sortedNews = [...news].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
 
   return (
