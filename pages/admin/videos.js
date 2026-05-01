@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getVideos, saveVideos } from '../../lib/siteData';
+import { supabase } from '../../lib/supabase';
 
 export default function VideoManager() {
   const [videos, setVideos] = useState([]);
