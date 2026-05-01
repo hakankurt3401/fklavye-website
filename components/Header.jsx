@@ -10,6 +10,7 @@ function Header() {
       id: "dernegimiz",
       label: "Derneğimiz",
       submenu: [
+        { label: "Başkanın Mesajı", href: "/baskan-mesaji" },
         { label: "Tarihçemiz", href: "/tarihcemiz" },
         { label: "Tüzük", href: "/tuzuk" },
         { label: "Yönetim Kurulu", href: "/yonetim-kurulu" },
