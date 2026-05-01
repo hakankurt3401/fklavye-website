@@ -15,7 +15,7 @@ export default function Iletisim() {
   const loadData = async () => {
     try {
       const data = await getIletisim();
-      setIletisimContent(data?.content || '');
+      setIletisimContent(data || '');
     } catch (error) {
       console.error('Veri yüklenirken hata:', error);
     } finally {
@@ -66,8 +66,44 @@ export default function Iletisim() {
             <div>
               <h3 className="text-xl font-bold text-gray-800 mb-4">İletişim Bilgilerimiz</h3>
               
-              {iletisimContent ? (
-                <div dangerouslySetInnerHTML={{ __html: iletisimContent }} />
+              {iletisimContent && iletisimContent.address ? (
+                <div className="space-y-4">
+                  {iletisimContent.address && (
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-2xl">📍</span>
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-gray-800">Adres</h4>
+                        <p className="text-gray-600">{iletisimContent.address}</p>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {iletisimContent.email && (
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-2xl">📧</span>
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-gray-800">E-posta</h4>
+                        <p className="text-gray-600">{iletisimContent.email}</p>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {iletisimContent.working_hours && (
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-2xl">🕐</span>
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-gray-800">Çalışma Saatleri</h4>
+                        <p className="text-gray-600">{iletisimContent.working_hours}</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
               ) : (
                 <div className="space-y-4">
                   <div className="flex items-start gap-4">
@@ -76,7 +112,7 @@ export default function Iletisim() {
                     </div>
                     <div>
                       <h4 className="font-bold text-gray-800">Adres</h4>
-                      <p className="text-gray-600">Merkez/Afyonkarahisar</p>
+                      <p className="text-gray-600">İstiklal Mah. Yücel Çakmaklı Cad. No 6/3 K 2 D 4 Afyonkarahisar</p>
                     </div>
                   </div>
                   
@@ -87,16 +123,6 @@ export default function Iletisim() {
                     <div>
                       <h4 className="font-bold text-gray-800">E-posta</h4>
                       <p className="text-gray-600">bilgi@fklavye.org.tr</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-2xl">📞</span>
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-gray-800">Telefon</h4>
-                      <p className="text-gray-600">Detaylı Bilgi İçin Bizi Arayın</p>
                     </div>
                   </div>
                 </div>
