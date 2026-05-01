@@ -15,7 +15,7 @@ export default function VideoManager() {
   // Auto-save kaldırıldı - sadece kullanıcı action yaptığında kaydet
 
   const moveItem = async (id, direction) => {
-    const sortedVideos = [...videos].sort((a, b) => (a.order || 0) - (b.order || 0));
+    const sortedVideos = [...videos].sort((a, b) => (a.sort_order || a.order || 0) - (b.sort_order || b.order || 0));
     const index = sortedVideos.findIndex(item => item.id === id);
     
     let swapIndex = direction === 'up' ? index - 1 : index + 1;
@@ -24,18 +24,19 @@ export default function VideoManager() {
     const video1 = sortedVideos[index];
     const video2 = sortedVideos[swapIndex];
     
-    // Doğrudan Supabase'e güncelleme yap - sadece bu iki video için
-    await supabase
-      .from('videos')
-      .update({ sort_order: video2.order })
-      .eq('id', video1.id);
+    const sort1 = video1.sort_order || video1.order || 0;
+    const sort2 = video2.sort_order || video2.order || 0;
     
     await supabase
       .from('videos')
-      .update({ sort_order: video1.order })
+      .update({ sort_order: sort1 })
       .eq('id', video2.id);
     
-    // Sayfayı yeniden yükle
+    await supabase
+      .from('videos')
+      .update({ sort_order: sort2 })
+      .eq('id', video1.id);
+    
     const { data } = await supabase.from('videos').select('*').order('sort_order', { ascending: true });
     setVideos(data || []);
   };

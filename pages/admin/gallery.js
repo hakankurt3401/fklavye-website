@@ -18,7 +18,7 @@ export default function GalleryManager() {
   }, []);
 
   const moveItem = async (id, direction) => {
-    const sortedAlbums = [...albums].sort((a, b) => (a.order || 0) - (b.order || 0));
+    const sortedAlbums = [...albums].sort((a, b) => (a.sort_order || a.order || 0) - (b.sort_order || b.order || 0));
     const idx = sortedAlbums.findIndex(album => album.id === id);
     if (idx < 0) return;
     
@@ -28,8 +28,11 @@ export default function GalleryManager() {
     const album1 = sortedAlbums[idx];
     const album2 = sortedAlbums[swapIdx];
     
-    await supabase.from('gallery').update({ sort_order: album2.order }).eq('id', album1.id);
-    await supabase.from('gallery').update({ sort_order: album1.order }).eq('id', album2.id);
+    const sort1 = album1.sort_order || album1.order || 0;
+    const sort2 = album2.sort_order || album2.order || 0;
+    
+    await supabase.from('gallery').update({ sort_order: sort1 }).eq('id', album2.id);
+    await supabase.from('gallery').update({ sort_order: sort2 }).eq('id', album1.id);
     
     const { data } = await supabase.from('gallery').select('*').order('sort_order', { ascending: true });
     setAlbums(data || []);
