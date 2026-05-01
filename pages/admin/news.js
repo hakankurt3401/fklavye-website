@@ -235,9 +235,10 @@ export default function NewsManager() {
     const currentItem = sorted[index];
     const prevItem = sorted[index - 1];
     try {
-      // Doğrudan sort_order güncelle
-      await supabase.from('news').update({ sort_order: prevItem.sort_order }).eq('id', currentItem.id);
-      await supabase.from('news').update({ sort_order: currentItem.sort_order }).eq('id', prevItem.id);
+      const currentSort = currentItem.sort_order || 0;
+      const prevSort = prevItem.sort_order || 0;
+      await supabase.from('news').update({ sort_order: currentSort }).eq('id', prevItem.id);
+      await supabase.from('news').update({ sort_order: prevSort }).eq('id', currentItem.id);
       await loadData();
     } catch (error) {
       console.error('Sıralama hatası:', error);
@@ -250,8 +251,10 @@ export default function NewsManager() {
     const currentItem = sorted[index];
     const nextItem = sorted[index + 1];
     try {
-      await supabase.from('news').update({ sort_order: nextItem.sort_order }).eq('id', currentItem.id);
-      await supabase.from('news').update({ sort_order: currentItem.sort_order }).eq('id', nextItem.id);
+      const currentSort = currentItem.sort_order || 0;
+      const nextSort = nextItem.sort_order || 0;
+      await supabase.from('news').update({ sort_order: nextSort }).eq('id', currentItem.id);
+      await supabase.from('news').update({ sort_order: currentSort }).eq('id', nextItem.id);
       await loadData();
     } catch (error) {
       console.error('Sıralama hatası:', error);
@@ -265,8 +268,10 @@ export default function NewsManager() {
     const prev = sorted[idx - 1];
     const curr = sorted[idx];
     try {
-      await supabase.from('announcements').update({ item_order: curr.item_order }).eq('id', prev.id);
-      await supabase.from('announcements').update({ item_order: prev.item_order }).eq('id', curr.id);
+      const prevOrder = prev.item_order || 0;
+      const currOrder = curr.item_order || 0;
+      await supabase.from('announcements').update({ item_order: currOrder }).eq('id', prev.id);
+      await supabase.from('announcements').update({ item_order: prevOrder }).eq('id', curr.id);
       await loadData();
     } catch (error) {
       console.error('Sıralama hatası:', error);
@@ -280,8 +285,10 @@ export default function NewsManager() {
     const next = sorted[idx + 1];
     const curr = sorted[idx];
     try {
-      await supabase.from('announcements').update({ item_order: next.item_order }).eq('id', curr.id);
-      await supabase.from('announcements').update({ item_order: curr.item_order }).eq('id', next.id);
+      const nextOrder = next.item_order || 0;
+      const currOrder = curr.item_order || 0;
+      await supabase.from('announcements').update({ item_order: currOrder }).eq('id', next.id);
+      await supabase.from('announcements').update({ item_order: nextOrder }).eq('id', curr.id);
       await loadData();
     } catch (error) {
       console.error('Sıralama hatası:', error);
