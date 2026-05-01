@@ -52,9 +52,9 @@ export default function DernekManager() {
   const [showModal, setShowModal] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [formData, setFormData] = useState({ title: '', content: '', date: '' });
-  const [activeSub, setActiveSub] = useState('Tarihçemiz');
+  const [activeSub, setActiveSub] = useState('Başkanın Mesajı');
 
-  const subItems = ['Tarihçemiz', 'Tüzük', 'Yönetim Kurulu', 'Denetim Kurulu'];
+  const subItems = ['Başkanın Mesajı', 'Tarihçemiz', 'Tüzük', 'Yönetim Kurulu', 'Denetim Kurulu'];
 
   const moveItem = (id, direction) => {
     const sortedItems = [...items].sort((a, b) => (a.order || 0) - (b.order || 0));
