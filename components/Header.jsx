@@ -10,47 +10,47 @@ function Header() {
       id: "dernegimiz",
       label: "Derneğimiz",
       submenu: [
-        { label: "Başkanın Mesajı", href: "/baskan-mesaji" },
-        { label: "Tarihçemiz", href: "/tarihcemiz" },
-        { label: "Tüzük", href: "/tuzuk" },
-        { label: "Yönetim Kurulu", href: "/yonetim-kurulu" },
-        { label: "Denetim Kurulu", href: "/denetim-kurulu" },
+        { label: "Başkanın Mesajı", href: "/sayfa/baskan-mesaji" },
+        { label: "Tarihçemiz", href: "/sayfa/tarihcemiz" },
+        { label: "Tüzük", href: "/sayfa/tuzuk" },
+        { label: "Yönetim Kurulu", href: "/sayfa/yonetim-kurulu" },
+        { label: "Denetim Kurulu", href: "/sayfa/denetim-kurulu" },
       ]
     },
     {
       id: "haberler",
       label: "Haberler",
       submenu: [
-        { label: "Haberler", href: "/haberler?tab=haberler" },
-        { label: "Duyurular", href: "/haberler?tab=duyurular" },
-        { label: "Basın Bültenleri", href: "/haberler?tab=basin" },
+        { label: "Haberler", href: "/sayfa/haberler?tab=haberler" },
+        { label: "Duyurular", href: "/sayfa/haberler?tab=duyurular" },
+        { label: "Basın Bültenleri", href: "/sayfa/haberler?tab=basin" },
       ]
     },
     {
       id: "intersteno",
       label: "İntersteno-Türk",
       submenu: [
-        { label: "İntersteno Onursal Başkanları", href: "/intersteno-onursal-baskanlari" },
-        { label: "İntersteno Hakkında", href: "/intersteno-hakkinda" },
-        { label: "İntersteno Yönetim Kurulu", href: "/intersteno-yonetim-kurulu" },
-        { label: "İntersteno Konseyi", href: "/intersteno-konseyi" },
-        { label: "İntersteno Türk Hakkında", href: "/intersteno-turk-hakkinda" },
-        { label: "İntersteno-Türk Yönetimi", href: "/intersteno-turk-yonetimi" },
+        { label: "İntersteno Onursal Başkanları", href: "/sayfa/intersteno-onursal" },
+        { label: "İntersteno Hakkında", href: "/sayfa/intersteno-hakkinda" },
+        { label: "İntersteno Yönetim Kurulu", href: "/sayfa/intersteno-yonetim" },
+        { label: "İntersteno Konseyi", href: "/sayfa/intersteno-konsey" },
+        { label: "İntersteno Türk Hakkında", href: "/sayfa/intersteno-turk-hakkinda" },
+        { label: "İntersteno-Türk Yönetimi", href: "/sayfa/intersteno-turk-yonetimi" },
       ]
     },
-    { id: "galeri", label: "Galeri", href: "/galeri" },
-    { id: "videolar", label: "Videolar", href: "/videolar" },
+    { id: "galeri", label: "Galeri", href: "/sayfa/galeri" },
+    { id: "videolar", label: "Videolar", href: "/sayfa/videolar" },
     {
       id: "fklavye",
       label: "F Klavye",
       submenu: [
-        { label: "F Klavyenin Mucidi: İhsan YENER", href: "/f-klavyenin-mucidi" },
-        { label: "F Klavyenin Hikayesi", href: "/f-klavyenin-hikayesi" },
-        { label: "F Klavyenin Özellikleri", href: "/f-klavyenin-ozellikleri" },
-        { label: "Günümüzde F Klavye Gerçeği", href: "/gunumuzde-f-klavye" },
+        { label: "F Klavyenin Mucidi: İhsan YENER", href: "/sayfa/f-klavyenin-mucidi" },
+        { label: "F Klavyenin Hikayesi", href: "/sayfa/f-klavyenin-hikayesi" },
+        { label: "F Klavyenin Özellikleri", href: "/sayfa/f-klavyenin-ozellikleri" },
+        { label: "Günümüzde F Klavye Gerçeği", href: "/sayfa/gunumuzde-f-klavye" },
       ]
     },
-    { id: "iletisim", label: "İletişim", href: "/iletisim" },
+    { id: "iletisim", label: "İletişim", href: "/sayfa/iletisim" },
   ];
 
   const handleDropdownToggle = (id) => {
