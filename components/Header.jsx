@@ -1,3 +1,4 @@
+// Başkanın Mesajı - F Klavyenin kuruluş hikayesi ve vizyonu
 import { useState } from "react";
 import Link from "next/link";
 
