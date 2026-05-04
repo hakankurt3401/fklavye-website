@@ -4,6 +4,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // Force fresh build - 2026-05-04
 }
 
 module.exports = nextConfig
