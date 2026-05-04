@@ -43,10 +43,11 @@ function ContentEditor({ value, onChange }) {
 
 export default function DernekManager() {
   const [items, setItems] = useState([
-    { id: 1, title: 'Tarihçemiz', content: 'Derneğimizin tarihi hakkında bilgi...', date: '2024-01-01', order: 1 },
-    { id: 2, title: 'Tüzük', content: 'Dernek tüzüğü içeriği...', date: '2024-01-01', order: 2 },
-    { id: 3, title: 'Yönetim Kurulu', content: 'Yönetim kurulu üyeleri...', date: '2024-01-01', order: 3 },
-    { id: 4, title: 'Denetim Kurulu', content: 'Denetim kurulu üyeleri...', date: '2024-01-01', order: 4 },
+    { id: 1, title: 'Başkanın Mesajı', content: 'Başkanın mesajı içeriği...', date: '2024-01-01', order: 0 },
+    { id: 2, title: 'Tarihçemiz', content: 'Derneğimizin tarihi hakkında bilgi...', date: '2024-01-01', order: 1 },
+    { id: 3, title: 'Tüzük', content: 'Dernek tüzüğü içeriği...', date: '2024-01-01', order: 2 },
+    { id: 4, title: 'Yönetim Kurulu', content: 'Yönetim kurulu üyeleri...', date: '2024-01-01', order: 3 },
+    { id: 5, title: 'Denetim Kurulu', content: 'Denetim kurulu üyeleri...', date: '2024-01-01', order: 4 },
   ]);
 
   const [showModal, setShowModal] = useState(false);
