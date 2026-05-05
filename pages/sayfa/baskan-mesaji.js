@@ -41,20 +41,16 @@ export default function BaskanMesaji() {
           <h1 className="text-2xl font-bold text-blue-800 mb-6">Başkanın Mesajı</h1>
           
           {content?.image_url && (
-            <div className="flex flex-col md:flex-row gap-6 mb-6 items-start">
-              <div className="w-full md:w-1/3 lg:w-1/4 flex-shrink-0">
-                <img 
-                  src={content.image_url} 
-                  alt={content.title || 'Başkan'} 
-                  className="w-full rounded-lg shadow-md object-cover"
-                />
-              </div>
-              <div className="flex-1">
+            <div className="mb-6" style={{ overflow: 'hidden' }}>
+              <img 
+                src={content.image_url} 
+                alt={content.title || 'Başkan'} 
+                className="float-left mr-6 mb-4 rounded-lg shadow-md object-cover"
+                style={{ width: '200px', height: 'auto' }}
+              />
+              <div className="text-lg text-gray-700 leading-relaxed">
                 {content.content && (
-                  <div 
-                    className="prose max-w-none text-gray-700 leading-relaxed text-lg"
-                    dangerouslySetInnerHTML={{ __html: content.content }} 
-                  />
+                  <div dangerouslySetInnerHTML={{ __html: content.content }} />
                 )}
               </div>
             </div>
