@@ -176,7 +176,7 @@ function DernekManager() {
   const [activeSub, setActiveSub] = useState('Tarihçemiz');
   const [loading, setLoading] = useState(true);
 
-  const subItems = ['Tarihçemiz', 'Tüzük', 'Yönetim Kurulu', 'Denetim Kurulu'];
+  const subItems = ['Başkanın Mesajı', 'Tarihçemiz', 'Tüzük', 'Yönetim Kurulu', 'Denetim Kurulu'];
 
   useEffect(() => { 
     loadData();
