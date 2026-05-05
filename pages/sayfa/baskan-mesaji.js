@@ -40,27 +40,18 @@ export default function BaskanMesaji() {
         <div className="bg-white rounded-xl shadow p-6">
           <h1 className="text-2xl font-bold text-blue-800 mb-6">Başkanın Mesajı</h1>
           
-          {content?.image_url && (
+                    {content?.content && (
             <div className="mb-6" style={{ overflow: 'hidden' }}>
-              <img 
-                src={content.image_url} 
-                alt={content.title || 'Başkan'} 
-                className="float-left mr-6 mb-4 rounded-lg shadow-md object-cover"
-                style={{ width: '200px', height: 'auto' }}
+              <img
+                src="https://res.cloudinary.com/dwelnz4ud/image/upload/v1777933065/bekirarabac%C4%B1_mbwooq.jpg"
+                alt="Dernek Başkanı"
+                className="float-left mr-6 mb-4"
+                style={{ width: '200px', height: 'auto', borderRadius: '8px', objectFit: 'cover' }}
               />
               <div className="text-lg text-gray-700 leading-relaxed">
-                {content.content && (
-                  <div dangerouslySetInnerHTML={{ __html: content.content }} />
-                )}
+                <div dangerouslySetInnerHTML={{ __html: content.content }} />
               </div>
             </div>
-          )}
-          
-          {(!content?.image_url && content?.content) && (
-            <div 
-              className="prose max-w-none text-gray-700 leading-relaxed text-lg"
-              dangerouslySetInnerHTML={{ __html: content.content }} 
-            />
           )}
           
           {!content && (
