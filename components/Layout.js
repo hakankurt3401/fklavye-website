@@ -1,8 +1,29 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 
 export default function Layout({ children, title = 'F Klavye Uçan Parmaklar Derneği' }) {
+  useEffect(() => {
+    // Ziyaretçi takibi
+    const trackVisitor = async () => {
+      try {
+        const ip = 'anonymous'; // Client IP captured by Supabase if available
+        const page = window.location.pathname;
+        
+        await supabase.from('visitors').insert({
+          ip: ip,
+          page: page,
+          duration: 0
+        });
+      } catch (error) {
+        console.error('Ziyaretçi kaydedilemedi:', error);
+      }
+    };
+
+    trackVisitor();
+  }, []);
   return (
     <div className="min-h-screen flex flex-col bg-blue-50">
       <Head>
