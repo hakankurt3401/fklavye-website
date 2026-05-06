@@ -29,7 +29,6 @@ export default function Iletisim() {
       await saveMessage({
         name: formData.name,
         email: formData.email,
-        phone: formData.phone || null,
         subject: formData.subject,
         message: formData.message
       });
