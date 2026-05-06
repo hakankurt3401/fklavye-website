@@ -1,29 +1,55 @@
 import { useState, useEffect } from 'react';
+import { supabase } from '../../lib/supabase';
 
 export default function MessagesManager() {
   const [messages, setMessages] = useState([]);
   const [selectedMessage, setSelectedMessage] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const stored = JSON.parse(localStorage.getItem('site_messages') || '[]');
-      setMessages(stored);
-    }
+    loadMessages();
   }, []);
 
-  const markAsRead = (id) => {
-    const updated = messages.map(m => m.id === id ? { ...m, read: true } : m);
-    setMessages(updated);
-    localStorage.setItem('site_messages', JSON.stringify(updated));
+  const loadMessages = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('messages')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+      setMessages(data || []);
+    } catch (error) {
+      console.error('Mesajlar yüklenirken hata:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const deleteMessage = (id) => {
-    if (!confirm('Bu mesajı silmek istediğinizden emin misiniz?')) return;
-    const updated = messages.filter(m => m.id !== id);
-    setMessages(updated);
-    localStorage.setItem('site_messages', JSON.stringify(updated));
-    setSelectedMessage(null);
+  const markAsRead = async (id) => {
+    try {
+      await supabase.from('messages').update({ read: true }).eq('id', id);
+      setMessages(messages.map(m => m.id === id ? { ...m, read: true } : m));
+    } catch (error) {
+      console.error('Okundu işaretleme hatası:', error);
+    }
   };
+
+  const deleteMessage = async (id) => {
+    if (!confirm('Bu mesajı silmek istediğinizden emin misiniz?')) return;
+    try {
+      await supabase.from('messages').delete().eq('id', id);
+      setMessages(messages.filter(m => m.id !== id));
+      setSelectedMessage(null);
+    } catch (error) {
+      console.error('Mesaj silme hatası:', error);
+    }
+  };
+
+  if (loading) {
+    return <div className="p-8 text-center">Yükleniyor...</div>;
+  }
 
   return (
     <div>
@@ -54,7 +80,7 @@ export default function MessagesManager() {
                       <p className="text-sm text-gray-500">{msg.email}</p>
                     </div>
                   </div>
-                  <span className="text-sm text-gray-400">{msg.date}</span>
+                  <span className="text-sm text-gray-400">{new Date(msg.created_at).toLocaleDateString('tr-TR')}</span>
                 </div>
                 <p className="mt-2 text-gray-600 text-sm truncate">{msg.subject} - {msg.message}</p>
               </div>
@@ -74,9 +100,8 @@ export default function MessagesManager() {
               <div>
                 <h3 className="font-bold text-xl text-gray-800">{selectedMessage.name}</h3>
                 <p className="text-sm text-gray-500">{selectedMessage.email}</p>
-                {selectedMessage.phone && <p className="text-sm text-gray-500">{selectedMessage.phone}</p>}
               </div>
-              <span className="text-sm text-gray-400">{selectedMessage.date}</span>
+              <span className="text-sm text-gray-400">{new Date(selectedMessage.created_at).toLocaleString('tr-TR')}</span>
             </div>
             <div className="mb-4">
               <span className="text-xs font-bold text-gray-500 uppercase">Konu:</span>
