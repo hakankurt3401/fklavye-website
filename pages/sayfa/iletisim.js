@@ -29,11 +29,9 @@ export default function Iletisim() {
       await saveMessage({
         name: formData.name,
         email: formData.email,
-        phone: formData.phone,
+        phone: formData.phone || null,
         subject: formData.subject,
-        message: formData.message,
-        date: new Date().toISOString().split('T')[0],
-        read: false
+        message: formData.message
       });
       setSubmitted(true);
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
